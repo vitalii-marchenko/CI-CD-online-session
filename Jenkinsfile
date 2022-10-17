@@ -7,18 +7,16 @@ pipeline {
           checkout scm
           def customImage = docker.build("${registry}:${env.BUILD_ID}")
         }
-
       }
     }
     
-        stage('Unit tests') {
-      steps {
-        script {
-          docker.image("${registry}:${env.BUILD_ID}").inside {c ->
-          sh 'python app_test.py'
+      stage('Unit tests') {
+        steps {
+          script {
+            docker.image("${registry}:${env.BUILD_ID}").inside { c ->
+            sh 'python app_test.py'
         }
       }
-
     }
   }
 
@@ -33,8 +31,8 @@ pipeline {
 
       }
     }
-
   }
+  
   environment {
     registry = 'markony/flask-app'
   }
