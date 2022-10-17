@@ -11,6 +11,17 @@ pipeline {
       }
     }
 
+    stage('Push to Registry') {
+      steps {
+        script {
+          docker.withRegistry('', 'dockerhub_id') {
+            docker.image("${registry}:${env.BUILD_ID}").push('latest')
+          }
+        }
+
+      }
+    }
+
   }
   environment {
     registry = 'markony/flask-app'
